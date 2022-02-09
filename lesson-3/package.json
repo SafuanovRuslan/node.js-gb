@@ -1,0 +1,13 @@
+{
+  "name": "lesson-3",
+  "version": "1.0.0",
+  "description": "Learning task",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node getlogs.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Safuanov Ruslan",
+  "license": "ISC"
+}
