@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Socket</title>
+    <script src="https://cdn.socket.io/4.2.0/socket.io.min.js" integrity="sha384-PiBR5S00EtOj2Lto9Uu81cmoyZqR57XcOna1oAuVuIEjzj0wpqDVfD0JA9eXlRsj" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="count"></div>
+<input id="input" type="text" autofocus>
+<button id="button">Send</button>
+<div id="messages"></div>
+<script>
+    const socket = io('localhost:3000');
+    const messageBlock = document.querySelector('#messages');
+    const input = document.querySelector('#input');
+    const button = document.querySelector('#button');
+    const count = document.querySelector('#count')
+
+    button.addEventListener('click', () => {
+        const data = {
+            message: input.value,
+        };
+
+        socket.emit('client-msg', data);
+    });
+
+    socket.on('connect', () => {
+        console.log('Connected!');
+    });
+    socket.on('server-msg', ({ message }) => {
+        messageBlock.insertAdjacentHTML('afterbegin', `<div>${ message }</div>`);
+    });
+    socket.on('changeCount', (usersCount) => {
+        count.innerHTML = 'Сейчас в чате ' + usersCount + ' пользователей';
+    });
+
+    window.addEventListener('load', () => {
+        const userName = prompt('Как тебя зовут, бродяга?', '');
+        socket.emit('user-reg', userName);
+    });
+</script>
+</body>
+</html>
